@@ -58,14 +58,16 @@ app.post('/', (req, res) => {
           if (text) {
             var negative = false;
             var buy = false;
+            var buy_index = 0;
             var slice = jieba.cut(text);
-            slice.map((piece) => {
+            slice.map((piece, idx) => {
               if (piece in n) {
                 negative = true;
               }
 
               if (piece in b) {
                 buy = true;
+                buy_index = idx;
               }
             });
 
@@ -84,7 +86,7 @@ app.post('/', (req, res) => {
     });
   }
 
-  res.end(200);
+  res.sendStatus(200);
 });
 
 app.get('/', (req, res) => {
