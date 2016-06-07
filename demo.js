@@ -17,7 +17,7 @@ var b = [
 ];
 
 var send = (body, method) => {
-  var uri = 'https://graph.facebook.com/v2.6/me/messages?access_token=' + process.env.PAGE_ACCESS_TOKE
+  var uri = 'https://graph.facebook.com/v2.6/me/messages?access_token=' + process.env.PAGE_ACCESS_TOKEN
 
   request({
     body: JSON.stringify(body),
@@ -43,7 +43,7 @@ var send_message = (user, text) => {
 }
 
 
-console.log(process.env.PAGE_ACCESS_TOKE);
+console.log(process.env.PAGE_ACCESS_TOKEN);
 
 // Enable encoded URL (optional)
 app.use(bodyParser.urlencoded({extended: true}))
