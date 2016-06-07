@@ -43,6 +43,8 @@ var send_message = (user, text) => {
 }
 
 
+console.log(process.env.PAGE_ACCESS_TOKE);
+
 // Enable encoded URL (optional)
 app.use(bodyParser.urlencoded({extended: true}))
 
@@ -51,6 +53,7 @@ app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
   var payload = req.body;
+  console.log(payload)
   if (payload.object == 'page') {
     var entry = payload.entry;
     entry.map((message_instance) => {
