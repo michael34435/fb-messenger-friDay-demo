@@ -127,9 +127,9 @@ app.post('/', (req, res) => {
             } else if (buy && !negative) {
               var items = slice.slice(buy_index + 1);
               send_message(user, '推薦點東西給你', () => send_message(user, '正在搜尋...'));
-              request.get({url: 'https://shopping-api.friday.tw/api/app/v2/search?currentPage=1&pageSize=20&keyword=' + items.join('+'), json: true}, (err, req, body) => {
+              request.get({url: 'https://shopping-api.friday.tw/api/app/v2/search?currentPage=1&pageSize=10&keyword=' + items.join('+'), json: true}, (err, req, body) => {
                 if (body) {
-                  var data = body.data;
+                  var data = body.data || [];
                   var elements = [];
                   data.map((product) => {
                     elements.push({
@@ -144,6 +144,8 @@ app.post('/', (req, res) => {
                   send(uri, json, () => {
                     send_message(user, '從friday.tw找到上面這些商品');
                   });
+                } else {
+                  send_message(user, 'friday.tw可能發生了點問題，目前伺服器無法回應喔');
                 }
               });
             } else {
