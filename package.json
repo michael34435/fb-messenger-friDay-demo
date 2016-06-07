@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/michael34435/fb-messenger-friDay-demo#readme",
   "dependencies": {
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "nodejieba": "^2.0.0",
+    "request": "^2.72.0"
   }
 }
