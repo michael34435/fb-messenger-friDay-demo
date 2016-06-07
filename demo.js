@@ -56,10 +56,12 @@ app.post('/', (req, res) => {
         if (message.message) {
           var text = message.message.text;
           if (text) {
+            console.log('recieve:' + text);
             var negative = false;
             var buy = false;
             var buy_index = 0;
             var slice = jieba.cut(text);
+            console.log('slice:' + slice);
             slice.map((piece, idx) => {
               if (piece in n) {
                 negative = true;
