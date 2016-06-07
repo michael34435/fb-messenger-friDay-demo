@@ -1,6 +1,7 @@
 var express = require('express');
 var jieba = require('nodejieba');
 var request = require('request');
+var bodyParser = require('body-parser');
 var app = express();
 
 var n = [
@@ -40,6 +41,13 @@ var send_message = (user, text) => {
 
   send(message_payload, 'post');
 }
+
+
+// Enable encoded URL (optional)
+app.use(bodyParser.urlencoded({extended: true}))
+
+// Enable JSON (optional)
+app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
   var payload = req.body;
