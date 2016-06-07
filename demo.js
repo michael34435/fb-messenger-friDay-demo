@@ -126,7 +126,7 @@ app.post('/', (req, res) => {
               send_message(user, '不買就算了');
             } else if (buy && !negative) {
               var items = slice.slice(buy_index + 1);
-              var keyword = items.join(' ') + ' ' + items.join('');
+              var keyword = items.join('');
               keyword = encodeURIComponent(keyword);
               send_message(user, '推薦點東西給你', () => send_message(user, '正在搜尋...', () => {
                 request.get({url: 'https://shopping-api.friday.tw/api/app/v2/search?currentPage=1&pageSize=10&keyword=' + keyword, json: true}, (err, req, body) => {
