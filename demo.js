@@ -20,8 +20,7 @@ var send = (body, method) => {
   var uri = 'https://graph.facebook.com/v2.6/me/messages?access_token=' + process.env.PAGE_ACCESS_TOKEN
 
   request({
-    body: JSON.stringify(body),
-    json: true,
+    json: body,
     uri: uri,
     method: method
   }, (err, obj, res) => {
