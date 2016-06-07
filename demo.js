@@ -101,4 +101,8 @@ app.get('/', (req, res) => {
   }
 });
 
+app.get('/welcome', (req, res) => {
+  res.send('hello world');
+});
+
 app.listen(80);
