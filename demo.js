@@ -128,21 +128,23 @@ app.post('/', (req, res) => {
               var items = slice.slice(buy_index + 1);
               send_message(user, '推薦點東西給你', () => send_message(user, '正在搜尋...'));
               request.get({url: 'https://shopping-api.friday.tw/api/app/v2/search?currentPage=1&pageSize=20&keyword=' + items.join('+'), json: true}, (err, req, body) => {
-                var data = body.data;
-                var elements = [];
-                data.map((product) => {
-                  elements.push({
-                    title: product.saleName,
-                    image_url: product.image,
-                    subtitle: product.modelNo,
-                    url: 'http://shopping.friday.tw/salecenter/index?saleNo='+product.saleNo
+                if (body) {
+                  var data = body.data;
+                  var elements = [];
+                  data.map((product) => {
+                    elements.push({
+                      title: product.saleName,
+                      image_url: product.image,
+                      subtitle: product.modelNo,
+                      url: 'http://shopping.friday.tw/salecenter/index?saleNo='+product.saleNo
+                    });
                   });
-                });
 
-                var json = get_generic_json(user, elements);
-                send(uri, json, () => {
-                  send_message(user, '從friday.tw找到上面這些商品');
-                });
+                  var json = get_generic_json(user, elements);
+                  send(uri, json, () => {
+                    send_message(user, '從friday.tw找到上面這些商品');
+                  });
+                }
               });
             } else {
               send_message(user, '無法識別您在說什麼');
