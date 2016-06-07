@@ -107,13 +107,15 @@ app.post('/', (req, res) => {
             var slice = jieba.cut(text);
             console.log('slice:' + slice);
             slice.map((piece, idx) => {
-              if (n.indexOf(piece)) {
+              if (n.indexOf(piece) > -1) {
                 negative = true;
+                console.log(piece, 'negative')
               }
 
-              if (b.indexOf(piece)) {
+              if (b.indexOf(piece) > -1) {
                 buy = true;
                 buy_index = idx;
+                console.log(piece, 'buy');
               }
             });
 
