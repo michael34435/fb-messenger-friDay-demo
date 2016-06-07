@@ -61,7 +61,7 @@ app.post('/', (req, res) => {
       var messaging = message_instance.messaging;
       messaging.map((message) => {
         var user = message.sender.id;
-        var text = message.text;
+        var text = message.message.text;
         console.log(message);
         console.log(user, text);
         if (text) {
