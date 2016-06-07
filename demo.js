@@ -38,7 +38,7 @@ var send_message = (user, text) => {
           "text": text
       }
   };
-
+  console.log('user:' + user, 'text:' + text);
   send(message_payload, 'post');
 }
 
