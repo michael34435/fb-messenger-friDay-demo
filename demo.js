@@ -60,8 +60,9 @@ app.post('/', (req, res) => {
     entry.map((message_instance) => {
       var messaging = message_instance.messaging;
       messaging.map((message) => {
-        var text = message.text;
         var user = message.sender.id;
+        var text = message.text;
+        console.log(message);
         console.log(user, text);
         if (text) {
           var negative = false;
