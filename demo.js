@@ -54,6 +54,7 @@ app.use(bodyParser.json())
 app.post('/', (req, res) => {
   var payload = req.body;
   console.log(payload)
+  console.log(payload.object)
   if (payload.object == 'page') {
     var entry = payload.entry;
     entry.map((message_instance) => {
@@ -86,8 +87,7 @@ app.post('/', (req, res) => {
             return false;
           }
 
-          // 好無聊喔
-          send_message(user, '好無聊喔～～～');
+          send_message(user, '還有其他的問題嗎?');
         }
       });
     });
