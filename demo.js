@@ -16,19 +16,21 @@ var b = [
   '找'
 ];
 
-var send = (body, method) => {
+var send = (body, cb) => {
   var uri = 'https://graph.facebook.com/v2.6/me/messages?access_token=' + process.env.PAGE_ACCESS_TOKEN
-
   request({
     json: body,
     uri: uri,
-    method: method
+    method: 'post'
   }, (err, obj, res) => {
     console.log(res);
+    if (cb) {
+      cb();
+    }
   });
 }
 
-var send_message = (user, text) => {
+var send_message = (user, text, cb) => {
   var message_payload = {
       "recipient":{
           "id": user
@@ -37,61 +39,52 @@ var send_message = (user, text) => {
           "text": text
       }
   };
-  console.log('user:' + user, 'text:' + text);
-  send(message_payload, 'post');
+
+  send(message_payload, cb);
 }
 
-
-console.log(process.env.PAGE_ACCESS_TOKEN);
-
-// Enable encoded URL (optional)
 app.use(bodyParser.urlencoded({extended: true}))
-
-// Enable JSON (optional)
 app.use(bodyParser.json())
-
 app.post('/', (req, res) => {
   var payload = req.body;
-  console.log(payload)
-  console.log(payload.object)
   if (payload.object == 'page') {
     var entry = payload.entry;
     entry.map((message_instance) => {
       var messaging = message_instance.messaging;
       messaging.map((message) => {
         var user = message.sender.id;
-        var text = message.message.text;
-        console.log(message);
-        console.log(user, text);
-        if (text) {
-          var negative = false;
-          var buy = false;
-          var slice = jieba.cut(text);
-          slice.map((piece) => {
-            if (piece in n) {
-              negative = true;
+        if (message.message) {
+          var text = message.message.text;
+          if (text) {
+            var negative = false;
+            var buy = false;
+            var slice = jieba.cut(text);
+            slice.map((piece) => {
+              if (piece in n) {
+                negative = true;
+              }
+
+              if (piece in b) {
+                buy = true;
+              }
+            });
+
+            if (negative && buy) {
+              send_message(user, '不買就算了');
             }
 
-            if (piece in b) {
-              buy = true;
+            if (buy && !negative) {
+              send_message(user, '推薦點東西給你');
             }
-          });
 
-          if (negative && buy) {
-            send_message(user, '不買就不買～～');
-            return false;
+            send_message(user, '請問您還有其他的問題嗎?');
           }
-
-          if (buy && !negative) {
-            send_message(user, '推薦點東西給你');
-            return false;
-          }
-
-          send_message(user, '還有其他的問題嗎?');
         }
       });
     });
   }
+
+  res.end(200);
 });
 
 app.get('/', (req, res) => {
